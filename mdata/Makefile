@@ -11,6 +11,7 @@ MARKDOWN_FLAGS += -x wiki-tables
 MARKDOWN_FLAGS += -x fenced-code-blocks
 MARKDOWN_FLAGS += -x smarty-pants
 MARKDOWN_FLAGS += -x link-patterns
+MARKDOWN_FLAGS += -x header-ids
 MARKDOWN_FLAGS += --link-patterns-file $(LINK_PATTERNS_FILE)
 
 .SUFFIXES:	.md .html
