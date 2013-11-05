@@ -43,11 +43,11 @@ available.
 
 ### `sdc:datacenter_name`
 
-Every [SmartDataCenter][4] datacenter, sometimes called an _availability zone_,
-has a name.  This string is generally configured by the cloud operator to
-represent the physical location of the particular datacenter.  For example, in
-the Joyent Public Cloud, there are datacenters with names such as `us-west-1`
-and `us-east-1`.
+Every [SmartDataCenter][4] datacenter has a name.  This string is generally
+configured by the cloud operator to represent the physical location (and
+potentially some fault isolation boundary) of the particular datacenter.  For
+example, in the Joyent Public Cloud, there are datacenters with names such as
+`us-west-1` and `us-east-1`.
 
 ## Metadata Keys With Defined Guest Behaviour
 
@@ -60,10 +60,14 @@ wherever the SSH keys for the root user are located.  This mechanism allows us
 to provide seamless login using the same SSH keys the user has placed within
 their account in the provisioning system.
 
+SmartOS instances do not generally make use of this key.  Instead, a more
+advanced mechanism called SmartLogin is used -- SmartLogin queries SSH keys
+from the provisioning system at each login.
+
 ### `user-data`
 
 This key has no defined format, but its value is written to the file
-`/var/db/mdata-user-data` on first boot prior to the phase that runs
+`/var/db/mdata-user-data` on each boot prior to the phase that runs
 `user-script`.  This file is _not_ to be executed.  This allows a configuration
 file of some kind to be injected into the machine to be consumed by the
 `user-script` when it runs.
@@ -71,7 +75,7 @@ file of some kind to be injected into the machine to be consumed by the
 ### `user-script`
 
 This key may contain a program that is written to a file in the filesystem of
-the guest on first boot and then executed.  It may be of any format that would
+the guest on _each_ boot and then executed.  It may be of any format that would
 be considered executable in the guest instance.
 
 In a UNIX system, a [shebang line][3] (e.g. `#!/bin/ksh`) may be used to
@@ -79,14 +83,6 @@ specify the interpreter for the script.  The script may also _not_ have a
 shebang line, at which point the traditional UNIX behaviour of executing the
 script with the current shell will occur.  The current shell in this context is
 generally `/bin/bash`, or some other Bourne-compatible shell.
-
-### `run_userscript_flag`
-
-At the current time, our KVM images do not fetch and execute the `user-script`
-at each boot, while our SmartOS-based images do.  In a SmartOS image this key
-has no effect.  In a KVM image, if set to `true`, it causes the `user-script`
-to be executed not just on first boot, but rather on _every_ boot of the
-system.
 
 ### `operator-script`
 
