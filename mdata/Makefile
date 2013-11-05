@@ -33,7 +33,9 @@ output/%.html: %.md $(LINK_PATTERNS_FILE) $(COMMON_HTML)
 ########################################################################
 
 MARKDOWN_FILES = \
-	protocol.md
+	index.md \
+	protocol.md \
+	datadict.md
 
 HTML_FILES = \
 	$(addprefix output/,$(subst .md,.html,$(MARKDOWN_FILES)))
