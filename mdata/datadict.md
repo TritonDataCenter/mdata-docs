@@ -123,7 +123,7 @@ prefix.  For example:
 
 [2]: https://github.com/joyent/mdata-client
 
-[3]: http://en.wikipedia.org/wiki/Shebang_(Unix)
+[3]: http://en.wikipedia.org/wiki/Shebang_%28Unix%29
 
 [4]: http://www.joyent.com/products/private-cloud
 
