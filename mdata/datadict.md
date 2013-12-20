@@ -84,7 +84,7 @@ shebang line, at which point the traditional UNIX behaviour of executing the
 script with the current shell will occur.  The current shell in this context is
 generally `/bin/bash`, or some other Bourne-compatible shell.
 
-### `operator-script`
+### `sdc:operator-script`
 
 This key is set by the provisioning system itself and, if present, represents
 a program that _must_ be executed on every boot.  It must be executed prior to
