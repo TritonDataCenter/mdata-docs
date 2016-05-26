@@ -6,7 +6,7 @@ Joyent [SmartOS][1] provides a facility to store arbitrary key-value pairs
 alongside the configuration of a virtual guest instance.  In the global zone of
 a standalone SmartOS system (in use as a hypervisor), the root user may inspect
 or update metadata values using the [vmadm\(1M)][4] tool.  In a
-[SmartDataCenter][3] cloud deployment, or in the Joyent Public Cloud, the
+[Triton][3] cloud deployment, or in the Joyent Public Cloud, the
 customer or administrator may use [CloudAPI][2] to query and update metadata
 for guest instances.
 
@@ -198,7 +198,7 @@ metadata value.
 A `KEYS` request, as used by the _mdata-list\(1M)_ command-line tool, results
 in a list of all custom key-value pairs in the metadata store.
 
-Note that in current implementations of SmartOS and SmartDataCenter, this list
+Note that in current implementations of SmartOS and Triton, this list
 does _not_ include the keys in the `sdc:` namespace.
 <!-- XXX TODO Document where the sdc: namespace keys come from. -->
 
@@ -217,7 +217,7 @@ A `PUT` request, as used by the _mdata-put\(1M)_ command-line tool, creates a
 new key-value pair in the metadata store.  If the key to create already exists,
 the value of the existing pair is replaced with the provided value.
 
-Note that in current implementations of SmartOS and SmartDataCenter, the user
+Note that in current implementations of SmartOS and Triton, the user
 may not update keys in the `sdc:` namespace -- these are considered read-only
 to the guest instance.
 

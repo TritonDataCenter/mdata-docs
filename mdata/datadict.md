@@ -29,7 +29,7 @@ operation, but not modified with `PUT` or `DELETE`.
 ### `sdc:uuid`
 
 Every guest instance in a SmartOS hypervisor, and by extension in a
-[SmartDataCenter][4] cloud, has a [universally unique identifier][5] or UUID
+[Triton][4] cloud, has a [universally unique identifier][5] or UUID
 that identifies it.  This UUID is the identifier used to select the particular
 guest for control commands and configuration updates in the provisioning system
 API.
@@ -43,11 +43,66 @@ available.
 
 ### `sdc:datacenter_name`
 
-Every [SmartDataCenter][4] datacenter has a name.  This string is generally
+Every [Triton][4] datacenter has a name.  This string is generally
 configured by the cloud operator to represent the physical location (and
 potentially some fault isolation boundary) of the particular datacenter.  For
 example, in the Joyent Public Cloud, there are datacenters with names such as
 `us-west-1` and `us-east-1`.
+
+### `sdc:nics`
+
+A VM has a number of associated NICs whose configuration and details are
+stored in this key as a JSON array of objects. Each object may have the
+following fields:
+
+* `mac` is a string containing the MAC address of the NIC that the described
+  configuration applies to. This is always present.
+* `interface` is a string containing the name of the interface used by
+  [Triton][4]. The operating system should make a best effort to
+  assign the NIC the same name. This is always present.
+* `ips` is an array of IPv4 and IPv6 addresses that should be assigned to
+  the interface. The addresses are written in CIDR notation to indicate
+  the prefix length of their subnet. In addition to IP addresses, the
+  array can also contain the strings `dhcp` and `addrconf`. If `dhcp` is
+  present, then DHCPv4 should be performed on that interface. If `addrconf`
+  is present, then the node should respect Router Advertisements received
+  on that interface and should assign SLAAC addresses or perform DHCPv6 on
+  that interface as appropriate.
+* `primary` is a boolean indicating if this is the primary NIC. Only one
+  NIC will ever be the primary, and its `gateways` will be used.
+* `gateways` contains an array of strings of IPv4 and IPv6 addresses to use
+  as the default gateways. This field should only be used if it is the
+  primary NIC.
+* `mtu` is a number indicating the MTU in bytes that the operating system
+  should use for this interface.
+
+### `sdc:resolvers`
+
+When present, this field contains an array of IPv4 and IPv6 addresses to
+use for name resolution.
+
+### `sdc:hostname`
+
+When present, this field contains a string containing the hostname for the VM.
+
+### `sdc:dns_domain`
+
+When present, this field contains the domain that should be searched
+when performing a host name lookup. This would normally be placed into
+`/etc/resolv.conf` after the `search` keyword.
+
+### `sdc:routes`
+
+This field contains a collection of static routes to add to the operating
+system's routing table. It is represented as an array of JSON objects,
+where each object has the following keys:
+
+* `dst` is a string of the destination address or subnet.
+* `gateway` is a string of the gateway address through which the destination
+  can be accessed.
+* `linklocal` is a boolean indicating if the destination is on-link. When true,
+  `gateway` contains one of the IP addresses of the interface through which
+  `dst` can be reached.
 
 ## Metadata Keys With Defined Guest Behaviour
 
@@ -97,7 +152,7 @@ the creation phase of zero-touch custom image management.
 
 ## Recommendations For Third Party Vendors
 
-If you are producing an image to be deployed in a SmartDataCenter instance, or
+If you are producing an image to be deployed in a Triton instance, or
 specifically in the Joyent Public Cloud, you should follow the rules outlined
 previously in this document with respect to key names and intended behaviour.
 In addition, if you wish to provide additional configuration options that are
