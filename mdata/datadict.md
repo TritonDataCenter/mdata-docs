@@ -23,8 +23,8 @@ The SmartOS hypervisor provides a set of read-only keys to the guest instance.
 The names of these keys are prefixed with the string `sdc:`.  They provide
 various information about the host system and the guest instance.  The names of
 these keys do _not_ appear in the output of the `KEYS` metadata operation, or
-the output of the _mdata-list\(1M)_ command.  They may be read with the `GET`
-operation, but not modified with `PUT` or `DELETE`.
+the output of the [`mdata-list(1M)`][8] command.  They may be read with the
+`GET` operation, but not modified with `PUT` or `DELETE`.
 
 ### `sdc:uuid`
 
@@ -34,12 +34,29 @@ that identifies it.  This UUID is the identifier used to select the particular
 guest for control commands and configuration updates in the provisioning system
 API.
 
+### `sdc:image_uuid`
+
+Every guest instance in a SmartOS hypervisor (and therefore in [Triton][4]),
+is provisioned from a starting image, which is assigned a UUID.
+
 ### `sdc:server_uuid`
 
 Every SmartOS hypervisor has a UUID that identifies it.  So that consumers can
 reason about the placement of their guest instances relative to one another,
 the UUID of the hypervisor on which a guest instance is running is made
 available.
+
+### `sdc:owner_uuid`
+
+Every guest instance created through [Triton][4] APIs has an associated owning
+user account, which has a login name and UUID. While users normally just need
+their login name for interacting with [Triton][4], there are places, such as
+the DNS names created by [CNS][7], where users need to know their UUID.
+
+### `sdc:alias`
+
+During provisioning, a guest instance can optionally be assigned an alias, which
+is a more user-friendly way of identifying deployed instances.
 
 ### `sdc:datacenter_name`
 
@@ -174,10 +191,14 @@ prefix.  For example:
 
 [2]: https://github.com/joyent/mdata-client
 
-[3]: http://en.wikipedia.org/wiki/Shebang_%28Unix%29
+[3]: https://en.wikipedia.org/wiki/Shebang_%28Unix%29
 
-[4]: http://www.joyent.com/products/private-cloud
+[4]: https://www.joyent.com/triton/compute
 
-[5]: http://en.wikipedia.org/wiki/Universally_unique_identifier
+[5]: https://en.wikipedia.org/wiki/Universally_unique_identifier
 
 [6]: protocol.html
+
+[7]: https://github.com/joyent/triton-cns
+
+[8]: https://smartos.org/man/1M/mdata-list
