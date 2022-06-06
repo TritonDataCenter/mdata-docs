@@ -1,12 +1,12 @@
-# Joyent Metadata Data Dictionary
+# Triton SmartOS Metadata Data Dictionary
 
 ## Introduction
 
-Joyent [SmartOS][1] provides a facility to store arbitrary key-value pairs
+Triton [SmartOS][1] provides a facility to store arbitrary key-value pairs
 alongside the configuration of a virtual guest instance.  The contents of this
 metadata store are available to the guest instance, either through [the
 command-line tools][2], or the directly via the metadata protocol itself.  The
-protocol is described in a related document: [Joyent Metadata Protocol
+protocol is described in a related document: [Triton Metadata Protocol
 Specification (Version 2)][6].
 
 This document describes various well-known key names that have defined
@@ -63,7 +63,7 @@ is a more user-friendly way of identifying deployed instances.
 Every [Triton][4] datacenter has a name.  This string is generally
 configured by the cloud operator to represent the physical location (and
 potentially some fault isolation boundary) of the particular datacenter.  For
-example, in the Joyent Public Cloud, there are datacenters with names such as
+example, there may be datacenters with names such as
 `us-west-1` and `us-east-1`.
 
 ### `sdc:nics`
@@ -169,36 +169,36 @@ the creation phase of zero-touch custom image management.
 
 ## Recommendations For Third Party Vendors
 
-If you are producing an image to be deployed in a Triton instance, or
-specifically in the Joyent Public Cloud, you should follow the rules outlined
-previously in this document with respect to key names and intended behaviour.
-In addition, if you wish to provide additional configuration options that are
-specific to your product, you should do so with your own key namespace prefix.
+If you are producing an image to be deployed in a Triton instance, you should
+follow the rules outlined previously in this document with respect to key names
+and intended behaviour. In addition, if you wish to provide additional
+configuration options that are specific to your product, you should do so with
+your own key namespace prefix.
 
 To ensure that there are not inter-vendor key name conflicts, vendors are
 encouraged to use the reversed version of their corporate DNS domain as a
 prefix.  For example:
 
     com.ubuntu:user-data
-    
+
         or
-    
+
     com.riverbed:stingray-license-key
 
 <!-- Links/References -->
 
 [1]: http://www.smartos.org/
 
-[2]: https://github.com/joyent/mdata-client
+[2]: https://github.com/tritondatacenter/mdata-client
 
 [3]: https://en.wikipedia.org/wiki/Shebang_%28Unix%29
 
-[4]: https://www.joyent.com/triton/compute
+[4]: https://www.tritondatacenter.com/triton/compute
 
 [5]: https://en.wikipedia.org/wiki/Universally_unique_identifier
 
 [6]: protocol.html
 
-[7]: https://github.com/joyent/triton-cns
+[7]: https://github.com/tritondatacenter/triton-cns
 
-[8]: https://smartos.org/man/1M/mdata-list
+[8]: https://smartos.org/man/8/mdata-list
