@@ -1,4 +1,4 @@
-# Joyent Metadata Documentation
+# SmartOS Metadata Documentation
 
 * [Protocol Specification (Version 2)][1]
 

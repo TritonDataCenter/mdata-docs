@@ -1,23 +1,22 @@
-# Joyent Metadata Protocol Specification (Version 2)
+# Triton SmartOS Metadata Protocol Specification (Version 2)
 
 ## 1. Introduction
 
-Joyent [SmartOS][1] provides a facility to store arbitrary key-value pairs
+Triton [SmartOS][1] provides a facility to store arbitrary key-value pairs
 alongside the configuration of a virtual guest instance.  In the global zone of
 a standalone SmartOS system (in use as a hypervisor), the root user may inspect
-or update metadata values using the [vmadm\(1M)][4] tool.  In a
-[Triton][3] cloud deployment, or in the Joyent Public Cloud, the
-customer or administrator may use [CloudAPI][2] to query and update metadata
-for guest instances.
+or update metadata values using the [`vmadm(8)`][4] tool.  In a
+[Triton][3] cloud deployment, the customer or administrator may use
+[CloudAPI][2] to query and update metadata for guest instances.
 
 Once metadata has been provided to the system, it can then be accessed from
 within the guest instance (either an OS virtualised, or zone, instance; or a
-KVM hardware virtualised instance).  Joyent strongly recommends the use of [the
+KVM hardware virtualised instance).  It is strongly recommended the use of [the
 provided command-line tools][5] when accessing the metadata services.  These
 tools currently build on SmartOS and GNU/Linux, with support for more platforms
-to come.  If you are a Joyent Public Cloud customer, or are using the SmartOS
-template images available at [images.joyent.com][6], then you may already
-have the _mdata-client_ tools installed in your guest instance.
+to come.  If you are a Triton Data Center user, or are using the SmartOS
+template images available at [images.smartos.org][6], then you may already
+have the `mdata-client` tools installed in your guest instance.
 
 ## 2. Conventions
 
@@ -55,7 +54,7 @@ Additionally, while communicating via the serial port you should hold an
 exclusive lock over the serial port.  If your platform does not support
 exclusive locks, you should use whatever advisory locking mechanism will be
 used by other tools which will consume metadata via the serial port.  The
-[Joyent-provided tooling][5] do this on supported platforms -- e.g. by using
+[provided tooling][5] do this on supported platforms -- e.g. by using
 the fcntl(2) locking mechanism on UNIX platforms.
 
 ## 4. Transport
@@ -178,7 +177,7 @@ Request:
 
 ### 5.2. GET
 
-A `GET` request, as used by the _mdata-get\(1M)_ command-line tool, allows the
+A `GET` request, as used by the `mdata-get(8)` command-line tool, allows the
 consumer to fetch the value of the named key-value pair from the metadata
 store.
 
@@ -195,7 +194,7 @@ metadata value.
 
 ### 5.3. KEYS
 
-A `KEYS` request, as used by the _mdata-list\(1M)_ command-line tool, results
+A `KEYS` request, as used by the `mdata-list(8)` command-line tool, results
 in a list of all custom key-value pairs in the metadata store.
 
 Note that in current implementations of SmartOS and Triton, this list
@@ -208,12 +207,14 @@ This request requires no inputs, and thus does not require a payload.
 
 #### 5.3.2. Response
 
+<!-- markdownlint-disable MD033 -->
 || **Response Code** || **Condition/Payload Format** ||
 || `SUCCESS` || The payload is a linefeed-separated list of the names of the available custom metadata keys, if any exist.<br><br>e.g. `"root_authorized_keys\nuser-script\n"` would correspond to the set: `root_authorized_keys`, `user-script`. ||
+<!-- markdownlint-enable MD033 -->
 
 ### 5.4. PUT
 
-A `PUT` request, as used by the _mdata-put\(1M)_ command-line tool, creates a
+A `PUT` request, as used by the `mdata-put(8)` command-line tool, creates a
 new key-value pair in the metadata store.  If the key to create already exists,
 the value of the existing pair is replaced with the provided value.
 
@@ -241,7 +242,7 @@ BASE64-encoded as part of the regular framing process.
 
 ### 5.5. DELETE
 
-A `DELETE` request, as used by the _mdata-delete\(1M)_ command-line tool,
+A `DELETE` request, as used by the `mdata-delete(8)` command-line tool,
 removes a particular key-value pair from the metadata store.  This operation is
 successful even when the nominated key-value pair did not exist.
 
@@ -255,22 +256,20 @@ key-value pair to delete.
 || **Response Code** || **Condition/Payload Format** ||
 || `SUCCESS`       || The requested key-value pair was removed from the metadata store, or did not originally exist.  The payload is not present. ||
 
-
-
 <!-- Links/References -->
 
 [1]: http://www.smartos.org/
 
-[2]: https://api.joyentcloud.com/docs/public/index.html
+[2]: https://api.tritondatacenter.com/docs/public/index.html
 
-[3]: http://www.joyent.com/products/private-cloud
+[3]: http://www.tritondatacenter.com/products/private-cloud
 
-[4]: https://github.com/joyent/smartos-live/blob/master/src/vm/man/vmadm.1m.md
+[4]: https://github.com/tritondatacenter/smartos-live/blob/master/src/vm/man/vmadm.8.md
 
-[5]: https://github.com/joyent/mdata-client
+[5]: https://github.com/tritondatacenter/mdata-client
 
-[6]: https://images.joyent.com
+[6]: https://images.smartos.org
 
 [7]: http://en.wikipedia.org/wiki/Cyclic_redundancy_check
 
-[8]: https://github.com/joyent/mdata-client/blob/master/crc32.c
+[8]: https://github.com/tritondatacenter/mdata-client/blob/master/crc32.c

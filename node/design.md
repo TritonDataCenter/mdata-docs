@@ -6,7 +6,7 @@ code can continue to be used when writing your server side application logic.
 There are no language extensions or any other modifications to JavaScript for
 Node to accomplish its goal of server side JavaScript.
 
-There are however patterns used throughout Node and Joyent that are helpful to
+There are however patterns used throughout Node and Triton that are helpful to
 know and can be useful while designing your application.
 
 
@@ -264,7 +264,7 @@ consuming REST endpoints. Designed specifically to increase the observability
 and debugability of your application, Restify comes with first class
 [Bunyan](#bunyan) support as well support for DTrace. With Bunyan and DTrace
 support, you're gaining the ability to see via the logs or at runtime routes
-and their latencies over requests. 
+and their latencies over requests.
 
 
 ### <a name="fast"></a>fast
